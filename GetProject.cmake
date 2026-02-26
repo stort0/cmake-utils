@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(GET_PROJECT_REPO_URL "https://github.com/stort0/GetProject")
+set(GET_PROJECT_REPO_URL "https://github.com/stort0/cmake-utils")
 
 # The GetProject output directory is the place where all downloaded libraries
 # will be placed.
