@@ -173,6 +173,11 @@ function (_get_latest_tag_fallback)
                         file(REMOVE_RECURSE ${CACHE_DIR})
                 endif ()
 
+                if (NOT COMMIT_HASH)
+                        message(FATAL_ERROR "Error obtaining latest commit for "
+                                            "library '${ARGS_LIBRARY_NAME}'.")
+                endif ()
+
                 set(${ARGS_OUTPUT_VARIABLE} ${COMMIT_HASH} PARENT_SCOPE)
                 return()
         endif ()
@@ -217,20 +222,28 @@ function (_get_latest_tag_gh)
 
         set(INTERNAL_LIBRARY_DIR "$ENV{INTERNAL_GET_PROJECT_DIR}/${ARGS_LIBRARY_NAME}")
         set(TMP_FILE             "${INTERNAL_LIBRARY_DIR}/github.json")
-        set(API_URL              "https://api.github.com/repos/${ARGS_LIBRARY_AUTHOR}/${ARGS_LIBRARY_NAME}/releases/latest")
+        if (NOT ARGS_BRANCH)
+                set(API_URL      "https://api.github.com/repos/${ARGS_LIBRARY_AUTHOR}/${ARGS_LIBRARY_NAME}/releases/latest")
+        else ()
+                set(API_URL      "https://api.github.com/repos/${ARGS_LIBRARY_AUTHOR}/${ARGS_LIBRARY_NAME}/commits/${ARGS_BRANCH}")
+        endif ()
         file(DOWNLOAD ${API_URL} ${TMP_FILE} STATUS RESPONSE)
 
         list(GET RESPONSE 0 STATUS_CODE)
         list(GET RESPONSE 1 STATUS_STRING)
         if (${STATUS_CODE} EQUAL 0)
                 file(READ "${TMP_FILE}" API_RESPONSE)
-                string(JSON TAG_NAME GET "${API_RESPONSE}" "tag_name")
-                set(${ARGS_OUTPUT_VARIABLE} ${TAG_NAME} PARENT_SCOPE)
+                if (NOT ARGS_BRANCH)
+                        string(JSON VERSION GET "${API_RESPONSE}" "tag_name")
+                else ()
+                        string(JSON VERSION GET "${API_RESPONSE}" "sha")
+                endif ()
+                set(${ARGS_OUTPUT_VARIABLE} ${VERSION} PARENT_SCOPE)
         endif ()
 
         if (NOT ${STATUS_CODE} EQUAL 0)
                 message(STATUS "GetProject: Error using github API, using pure "
-                               "git fallback to retrieve the latest tag (slower).")
+                               "git fallback to retrieve the latest tag/commit (slower).")
         endif ()
 
         file(REMOVE "${TMP_FILE}")
@@ -313,9 +326,10 @@ function (_get_current_version)
         endif ()
 endfunction ()
 
-function (_error, MESSAGE)
-        file(REMOVE "${LOCK_FILE}")
-        message(FATAL_ERROR "${MESSAGE}")
+function (_error)
+        file(REMOVE "${LOCK_FILE}")  # Defined from outside scope
+        string(JOIN "" JOINED ${ARGN})
+        message(FATAL_ERROR "${JOINED}")
 endfunction()
 
 function (_clear_if_necessary)
@@ -681,8 +695,8 @@ function (_add_subdirectory)
 
         if (NOT ARGS_LIBRARY_NAME)
                 message(FATAL_ERROR "Missing parameters in function call to "
-                                    "_add_subdirectory, please report this at "
-                                    "${GET_PROJECT_REPO_URL}/issues.")
+                        "_add_subdirectory, please report this at "
+                        "${GET_PROJECT_REPO_URL}/issues.")
         endif ()
 
         # Directories
@@ -781,9 +795,8 @@ function (get_project)
                 find_package(Git)
                 if (NOT GIT_FOUND)
                         message(FATAL_ERROR "Git is required to use GetProject "
-                                            "with the GIT_REPOSITORY parameter. "
-                                            "You can download git at "
-                                            "https://git-scm.com/downloads")
+                                "with the GIT_REPOSITORY parameter. You can "
+                                "download git at https://git-scm.com/downloads")
                 endif ()
         endif ()
 
