@@ -22,8 +22,12 @@ function (_check_dependencies)
                 COMMAND ${Python3_EXECUTABLE} -m pip list
                 OUTPUT_VARIABLE PIP_LIST)
 
+        string(TOLOWER "${PIP_LIST}" PIP_LIST)
+
         set(DEPENDENCY_REGEX "^((${MATCH_WORD}|\\.)+)(:(${MATCH_DECIMAL}+)(!)?(\\.(${MATCH_DECIMAL}+))?(\\.(${MATCH_DECIMAL}+))?([^!]+)?(!)?)?$")
         foreach (DEPENDENCY ${ARGS_DEPENDENCIES})
+                string(TOLOWER "${DEPENDENCY}" DEPENDENCY)
+
                 if (NOT "${DEPENDENCY}" MATCHES ${DEPENDENCY_REGEX})
                         message(FATAL_ERROR "Invalid dependency format "
                                             "('${DEPENDENCY}').")
