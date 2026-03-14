@@ -759,7 +759,7 @@ function (_add_subdirectory)
                         set(INSTALL_COMMAND ${INSTALL_COMMAND} --config "${CMAKE_BUILD_TYPE}")
                 endif ()
 
-                execute_process(COMMAND ${CMAKE_COMMAND} . ${CONFIG_ARGS}
+                execute_process(COMMAND ${CMAKE_COMMAND} .. ${CONFIG_ARGS}
                         OUTPUT_QUIET
                         WORKING_DIRECTORY ${LIBRARY_DIR})
 

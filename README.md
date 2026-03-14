@@ -2,7 +2,9 @@
 
 This code is still in `BETA` and **may not work** when used.
 
-## CMake GetProject
+Include `CMakeUtilsMain.cmake` then use `include(ModuleName)` to include a module.
+
+## GetProject
 
 `get_project()` function, **downloads** and **adds as a sub directory**
 (*can be disabled*) an external library. The download is performed at
@@ -10,11 +12,11 @@ This code is still in `BETA` and **may not work** when used.
 `ExternalProject`.
 
 The **default** directory where GetProject puts the libraries in
-`${CMAKE_HOME_DIRECTORY}/libs`. If the `GET_PROJECT_OUTPUT_DIR` is set 
+`${CMAKE_HOME_DIRECTORY}/libs`. If the `GET_PROJECT_OUTPUT_DIR` is set
 **before** including `GetProject.cmake`, the user defined directory will be
 used.
 
-The output will be placed in `${GET_PROJECT_OUTPUT_DIR}/${LIBRARY_NAME}`. 
+The output will be placed in `${GET_PROJECT_OUTPUT_DIR}/${LIBRARY_NAME}`.
 `LIBRARY_NAME` will be obtained through the `GIT_REPOSITORY` if not provided.
 
 ```cmake
@@ -69,7 +71,7 @@ The *'!'* at the end means that the version must **completely match** the one pr
 
 Valid dependencies elements are:
 
- - `requests` *(any version of the library 'requests')*
- - `requests:1.0.0` *(__at least__ version __1.0.0__ of the library 'requests')*
- - `requests:1!.0.0` *(version __1.\*.\*__ of the library 'requests')*
- - `requests:1.0.0!` *(version **1.0.0** of the library 'requests')*
+- `requests` *(any version of the library 'requests')*
+- `requests:1.0.0` *(__at least__ version __1.0.0__ of the library 'requests')*
+- `requests:1!.0.0` *(version __1.\*.\*__ of the library 'requests')*
+- `requests:1.0.0!` *(version **1.0.0** of the library 'requests')*

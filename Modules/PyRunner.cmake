@@ -44,7 +44,7 @@ function (_check_dependencies)
                 set(DEPENDENCY_VERSION_STRICT "${CMAKE_MATCH_8}")
 
                 if (NOT ${DEPENDENCY_VERSION})  # No version provided
-                        string(REPLACE "." "\\." FIXED_NAME "${DEPENDENCY_NAME}")
+                        string(REPLACE ".." "\\." FIXED_NAME "${DEPENDENCY_NAME}")
                         set(PIP_MATCH_REGEX "\n${FIXED_NAME}${MATCH_WHITESPACE}")
                         if (NOT "${PIP_LIST}" MATCHES "${PIP_MATCH_REGEX}")
                                 message(FATAL_ERROR "Missing python dependency "
