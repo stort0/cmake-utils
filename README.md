@@ -3,8 +3,29 @@
 This code is still in `BETA` and **may not work** when used.
 
 Include `CMakeUtilsMain.cmake` then use `include(ModuleName)` to include a module.
+Example code to download and start using `cmake-utils`:
+
+```cmake
+set(CMAKE_UTILS_DIR "<...>")
+
+if (NOT EXISTS "${CMAKE_UTILS_DIR}")
+        execute_process(
+                COMMAND git clone "https://github.com/stort0/cmake-utils.git"
+                --quiet --branch "main" --single-branch ${CMAKE_UTILS_DIR})
+else ()
+        execute_process(
+                COMMAND git pull --quiet
+                WORKING_DIRECTORY ${CMAKE_UTILS_DIR})
+endif ()
+
+include("${CMAKE_UTILS_DIR}/CMakeUtilsMain.cmake")
+```
 
 ## GetProject
+
+```cmake
+include(GetProject)
+```
 
 `get_project()` function, **downloads** and **adds as a sub directory**
 (*can be disabled*) an external library. The download is performed at
@@ -46,6 +67,10 @@ The `BRANCH` arguments may be used with the `KEEP_UPDATED` option, `VERSION` is
 used when **no branch** is provided.
 
 ## PyRunner
+
+```cmake
+include(PyRunner)
+```
 
 `run_python_script()` function, executes a `python3` script at configure time.
 The function allows for a list of python dependencies with minimum required versions.
