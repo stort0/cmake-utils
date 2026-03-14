@@ -10,6 +10,9 @@ endif ()
 if (NOT DEFINED ENV{GET_PROJECT_OUTPUT_DIR})
         set(ENV{GET_PROJECT_OUTPUT_DIR} "${CMAKE_HOME_DIRECTORY}/libs")
 endif ()
+if (NOT EXISTS $ENV{GET_PROJECT_OUTPUT_DIR})
+        file(MAKE_DIRECTORY $ENV{GET_PROJECT_OUTPUT_DIR})
+endif ()
 
 # The GetProject internal directory is where the download cache is stored.
 if (DEFINED INTERNAL_GET_PROJECT_DIR AND NOT DEFINED ENV{INTERNAL_GET_PROJECT_DIR})
