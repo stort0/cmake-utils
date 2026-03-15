@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(GET_PROJECT_REPO_URL "https://github.com/stort0/cmake-utils")
-
 # The GetProject output directory is the place where all downloaded libraries
 # will be placed.
 if (DEFINED GET_PROJECT_OUTPUT_DIR AND NOT DEFINED ENV{GET_PROJECT_OUTPUT_DIR})
@@ -113,7 +111,7 @@ function (_get_latest_tag_fallback)
         if (NOT ARGS_GIT_REPOSITORY OR NOT ARGS_LIBRARY_NAME)
                 message(FATAL_ERROR "Missing parameters in function call to "
                                     "_get_latest_tag_fallback, please report this at "
-                                    "${GET_PROJECT_REPO_URL}/issues.")
+                                    "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         # Directories
@@ -220,7 +218,7 @@ function (_get_latest_tag_gh)
         if (NOT ARGS_GIT_REPOSITORY OR NOT ARGS_LIBRARY_NAME)
                 message(FATAL_ERROR "Missing parameters in function call to "
                                     "_get_latest_tag_gh, please report this at "
-                                    "${GET_PROJECT_REPO_URL}/issues.")
+                                    "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         set(INTERNAL_LIBRARY_DIR "$ENV{INTERNAL_GET_PROJECT_DIR}/${ARGS_LIBRARY_NAME}")
@@ -265,7 +263,7 @@ function (_get_latest_tag)
         if (NOT ARGS_GIT_REPOSITORY OR NOT ARGS_LIBRARY_NAME)
                 message(FATAL_ERROR "Missing parameters in function call to "
                                     "_get_latest_tag, please report this at "
-                                    "${GET_PROJECT_REPO_URL}/issues.")
+                                    "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         if ("${ARGS_GIT_REPOSITORY}" MATCHES ".*github\\.com")
@@ -304,7 +302,7 @@ function (_get_current_version)
         if (NOT ARGS_DIRECTORY OR NOT ARGS_OUTPUT_FOUND)
                 message(FATAL_ERROR "Missing parameters in function call to "
                                     "_get_current_version, please report this at "
-                                    "${GET_PROJECT_REPO_URL}/issues.")
+                                    "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         set(${OUTPUT_FOUND} OFF PARENT_SCOPE)
@@ -347,7 +345,7 @@ function (_clear_if_necessary)
         if (NOT ARGS_LIBRARY_NAME OR NOT ARGS_LIBRARY_DIR OR NOT ARGS_VERSION)
                 _error("Missing parameters in function call to "
                        "_clear_if_necessary, please report this at "
-                       "${GET_PROJECT_REPO_URL}/issues.")
+                       "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         set(${OUTPUT_SHOULD_SKIP_DOWNLOAD} ON PARENT_SCOPE)
@@ -408,7 +406,7 @@ function (_download_file)
         if (NOT ARGS_URL OR NOT ARGS_DIRECTORY)
                 _error("Missing parameters in function call to "
                        "_download_file, please report this at "
-                       "${GET_PROJECT_REPO_URL}/issues.")
+                       "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         get_filename_component(FILE_NAME ${ARGS_URL} NAME)
@@ -449,7 +447,7 @@ function (_extract_archive)
         if (NOT ARGS_LIBRARY_NAME)
                 _error("Missing parameters in function call to "
                        "_extract_archive, please report this at "
-                       "${GET_PROJECT_REPO_URL}/issues.")
+                       "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         # Directories and files
@@ -478,7 +476,7 @@ function (_is_directory_empty)
         if (NOT ARGS_LIBRARY_DIR)
                 _error("Missing parameters in function call to "
                        "_is_directory_empty, please report this at "
-                       "${GET_PROJECT_REPO_URL}/issues.")
+                       "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         # Used to check if directory is empty
@@ -504,7 +502,7 @@ function (_check_version_collisions)
         if (NOT ARGS_EXISTENT_VERSION OR NOT ARGS_NEW_VERSION)
                 _error("Missing parameters in function call to "
                        "_check_version_collisions, please report this at "
-                       "${GET_PROJECT_REPO_URL}/issues.")
+                       "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         set(REGEX_VERSION "^v?(([0-9]+)(\\.([0-9]+))?(\\.([0-9]+))?)(-[a-zA-Z_0-9]+)?$")
@@ -567,7 +565,7 @@ function (_download_library_url)
         if (NOT ARGS_URL OR NOT ARGS_LIBRARY_NAME)
                 _error("Missing parameters in function call to "
                        "_download_library_url, please report this at "
-                       "${GET_PROJECT_REPO_URL}/issues.")
+                       "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         # Directories and files
@@ -631,7 +629,7 @@ function (_validate_git_repo)
         if (NOT ARGS_GIT_REPOSITORY)
                 _error("Missing parameters in function call to "
                        "_validate_git_repo, please report this at "
-                       "${GET_PROJECT_REPO_URL}/issues.")
+                       "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         # If connected to the internet validate the git repository
@@ -661,7 +659,7 @@ function (_download_library_git)
         if (NOT ARGS_GIT_REPOSITORY OR (NOT ARGS_BRANCH AND NOT ARGS_VERSION) OR NOT ARGS_LIBRARY_DIR)
                 message(FATAL_ERROR "Missing parameters in function call to "
                                     "_download_library_git, please report this at "
-                                    "${GET_PROJECT_REPO_URL}/issues.")
+                                    "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         # Save the version or the branch in the COMMAND_BRANCH variable,
@@ -698,8 +696,8 @@ function (_add_subdirectory)
 
         if (NOT ARGS_LIBRARY_NAME)
                 message(FATAL_ERROR "Missing parameters in function call to "
-                        "_add_subdirectory, please report this at "
-                        "${GET_PROJECT_REPO_URL}/issues.")
+                                    "_add_subdirectory, please report this at "
+                                    "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         # Directories
@@ -798,8 +796,8 @@ function (get_project)
                 find_package(Git)
                 if (NOT GIT_FOUND)
                         message(FATAL_ERROR "Git is required to use GetProject "
-                                "with the GIT_REPOSITORY parameter. You can "
-                                "download git at https://git-scm.com/downloads")
+                                            "with the GIT_REPOSITORY parameter. You can "
+                                            "download git at https://git-scm.com/downloads")
                 endif ()
         endif ()
 

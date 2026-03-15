@@ -2,23 +2,15 @@
 
 This code is still in `BETA` and **may not work** when used.
 
-Include `CMakeUtilsMain.cmake` then use `include(ModuleName)` to include a module.
-Example code to download and start using `cmake-utils`:
+Use the following code to download `cmake-utils`, then use `include(<ModuleName>)`
+to enable its modules.
 
 ```cmake
-set(CMAKE_UTILS_DIR "<...>")
-
-if (NOT EXISTS "${CMAKE_UTILS_DIR}")
-        execute_process(
-                COMMAND git clone "https://github.com/stort0/cmake-utils.git"
-                --quiet --branch "main" --single-branch ${CMAKE_UTILS_DIR})
-else ()
-        execute_process(
-                COMMAND git pull --quiet
-                WORKING_DIRECTORY ${CMAKE_UTILS_DIR})
-endif ()
-
-include("${CMAKE_UTILS_DIR}/CMakeUtilsMain.cmake")
+set(CMAKE_UTILS_PATH "<...>")  # Defaults to CMAKE_BINARY_DIR/cmake-utils
+file(DOWNLOAD
+        "https://raw.githubusercontent.com/stort0/cmake-utils/refs/heads/main/GetCMakeUtils.cmake"
+        "${CMAKE_BINARY_DIR}/GetCMakeUtils.cmake")
+include("${CMAKE_BINARY_DIR}/GetCMakeUtils.cmake")
 ```
 
 ## GetProject

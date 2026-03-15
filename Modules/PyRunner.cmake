@@ -1,7 +1,5 @@
 cmake_minimum_required(VERSION 3.10)
 
-set(GET_PROJECT_REPO_URL "https://github.com/stort0/cmake-utils")
-
 set(MATCH_WORD       "[A-Za-z0-9_]")
 set(MATCH_DECIMAL    "[0-9]")
 set(MATCH_WHITESPACE "[ \t\r\n]")
@@ -15,7 +13,7 @@ function (_check_dependencies)
         if (NOT ARGS_DEPENDENCIES)
                 message(FATAL_ERROR "Missing parameters in function call to "
                                     "_check_dependencies, please report this at "
-                                    "${GET_PROJECT_REPO_URL}/issues.")
+                                    "${CMAKE_UTILS_GIT_REPO}/issues.")
         endif ()
 
         execute_process(
