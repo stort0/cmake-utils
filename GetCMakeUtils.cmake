@@ -14,15 +14,13 @@ endif ()
 set(CMAKE_UTILS_GIT_REPO "https://github.com/stort0/cmake-utils" CACHE STRING "cmake-utils git repository.")
 
 if (NOT EXISTS "${CMAKE_UTILS_PATH}")
-        if (NOT EXISTS "${CMAKE_UTILS_PATH}")
-                execute_process(
-                        COMMAND git clone "${CMAKE_UTILS_GIT_REPO}.git"
-                                --quiet --branch "main" --single-branch ${CMAKE_UTILS_PATH})
-        else ()
-                execute_process(
-                        COMMAND git pull --quiet
-                        WORKING_DIRECTORY ${CMAKE_UTILS_PATH})
-        endif ()
+        execute_process(
+                COMMAND git clone "${CMAKE_UTILS_GIT_REPO}.git"
+                --quiet --branch "main" --single-branch ${CMAKE_UTILS_PATH})
+else ()
+        execute_process(
+                COMMAND git pull --quiet
+                WORKING_DIRECTORY ${CMAKE_UTILS_PATH})
 endif ()
 
 if (NOT EXISTS "${CMAKE_UTILS_PATH}")
