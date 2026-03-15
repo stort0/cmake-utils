@@ -830,6 +830,10 @@ function (get_project)
                 endif ()
         endif ()
 
+        if ($ENV{${ARGS_LIBRARY_NAME}_ADDED})  # Likely already added by another library
+                return()
+        endif ()
+
         # Directories and files
         set(LIBRARY_DIR          "$ENV{GET_PROJECT_OUTPUT_DIR}/${ARGS_LIBRARY_NAME}")
         set(INTERNAL_LIBRARY_DIR "$ENV{INTERNAL_GET_PROJECT_DIR}/${ARGS_LIBRARY_NAME}")
@@ -902,10 +906,10 @@ function (get_project)
                         KEEP_UPDATED   ${ARGS_KEEP_UPDATED})
         endif ()
 
-        set(${ARGS_LIBRARY_NAME}_DOWNLOADED ON PARENT_SCOPE)
-        set(${ARGS_LIBRARY_NAME}_VERSION    ${ARGS_VERSION} PARENT_SCOPE)
-        set(${ARGS_LIBRARY_NAME}_SOURCE     ${LIBRARY_DIR} PARENT_SCOPE)
-        set(${ARGS_LIBRARY_NAME}_BINARY     ${INTERNAL_BINARY_DIR} PARENT_SCOPE)
+        set(ENV{${ARGS_LIBRARY_NAME}_DOWNLOADED} ON)
+        set(ENV{${ARGS_LIBRARY_NAME}_VERSION}    ${ARGS_VERSION})
+        set(ENV{${ARGS_LIBRARY_NAME}_SOURCE}     ${LIBRARY_DIR})
+        set(ENV{${ARGS_LIBRARY_NAME}_BINARY}     ${INTERNAL_BINARY_DIR})
 
         file(REMOVE "${LOCK_FILE}")
         if (ARGS_DOWNLOAD_ONLY)
@@ -917,5 +921,5 @@ function (get_project)
                 INSTALL_ENABLED ${ARGS_INSTALL_ENABLED}
                 OPTIONS         ${ARGS_OPTIONS})
 
-        set(${ARGS_LIBRARY_NAME}_ADDED ON PARENT_SCOPE)
+        set(ENV{${ARGS_LIBRARY_NAME}_ADDED} ${${ARGS_LIBRARY_NAME}_ADDED})
 endfunction ()
