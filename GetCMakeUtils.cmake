@@ -7,7 +7,7 @@ if (NOT GIT_FOUND)
 endif ()
 
 if (NOT DEFINED ${CMAKE_UTILS_PATH})
-        message(STATUS "No CMAKE_UTILS_PATH specified, using CMAKE_BINARY_DIR")
+        message(STATUS "No CMAKE_UTILS_PATH specified, using CMAKE_BINARY_DIR/cmake-utils")
         set(CMAKE_UTILS_PATH "${CMAKE_BINARY_DIR}/cmake-utils")
 endif ()
 
